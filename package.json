@@ -1,7 +1,7 @@
 {
   "name": "icetty",
   "description": "secure p2p command line access to any of your devices",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Nathaniel Camomot",
   "bin": {
     "icetty": "./bin/run"
@@ -12,10 +12,10 @@
     "@oclif/config": "^1.8.8",
     "@oclif/plugin-help": "^2.1.3",
     "conf": "^2.0.0",
-    "conf-cli": "file:../conf-cli",
+    "conf-cli": "^0.1.6",
     "debug": "^4.1.0",
     "firebase": "^5.5.6",
-    "firepeer": "file:../firepeer",
+    "firepeer": "^0.1.5",
     "get-port": "^4.0.0",
     "google-auth-library": "^2.0.0",
     "google-device-auth": "^0.1.3",
@@ -81,9 +81,8 @@
     "watch": "tsc -w",
     "postpack": "rimraf oclif.manifest.json",
     "posttest": "tslint -p test -t stylish",
-    "prepack": "rimraf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "prepack": "rimraf lib && tsc -b && oclif-dev manifest",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif-dev readme && git add README.md",
     "login": "tsc && cross-env DEBUG=icetty icetty login",
     "start": "tsc && cross-env DEBUG=icetty icetty start",
     "connect": "tsc && cross-env DEBUG=icetty icetty connect"
