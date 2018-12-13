@@ -1,11 +1,10 @@
 import { Command, flags } from "@oclif/command";
 import Initiator from "../lib/initiator";
-import selectClient from "../lib/initiator/clients";
 import firebase from "firebase";
 import { initFirebase } from "../lib/firebase";
-import { authenticate, Client, newClient } from "../lib/client";
+import { authenticate, Client, newClient, selectClient } from "../lib/service";
 import config from "../lib/config";
-import login from "../lib/login";
+import login from "../lib/auth";
 
 export default class Connect extends Command {
   static description = "Connect to a peer terminal";
@@ -35,7 +34,7 @@ export default class Connect extends Command {
       firebase.auth().onAuthStateChanged(async user => {
         if (user) {
           const id = await selectClient(user);
-          initiator = new Initiator();
+          initiator = new Initiator(client);
           await initiator.connect(
             user,
             id

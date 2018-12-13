@@ -1,12 +1,11 @@
 import { EventEmitter } from "events";
-import { FirePeer } from "firepeer";
 import firebase from "firebase";
+import { FirePeer, Signal } from "firepeer";
+import notifier from "node-notifier";
 import { spawn } from "node-pty";
 import wrtc from "wrtc";
-import config from "../config";
-import debug from "../debug";
-import notifier from "node-notifier";
-import { Client } from "../client";
+import config from "./config";
+import { Client } from "./service";
 
 export default class Receiver extends EventEmitter {
   firePeer: FirePeer;
@@ -17,7 +16,8 @@ export default class Receiver extends EventEmitter {
 
     this.firePeer = new FirePeer(firebase, {
       id: client.id,
-      spOpts: { wrtc }
+      spOpts: { wrtc },
+      allowOffer: this.allowOffer
     });
 
     this.firePeer.on("connection", peer => {
@@ -38,6 +38,24 @@ export default class Receiver extends EventEmitter {
 
       peer.on("data", (data: any) => {
         ptyProcess.write(data);
+      });
+    });
+  }
+
+  allowOffer(offer: Signal): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      notifier.notify({
+        title: `IceTTY: user ${offer.uid} would like to connect`,
+        message: "Click to allow, ignore to disallow.",
+        sound: true,
+        wait: true
+      });
+
+      notifier.on("click", function(notifierObject, options) {
+        resolve(true);
+      });
+      notifier.on("timeout", function(notifierObject, options) {
+        reject(false);
       });
     });
   }

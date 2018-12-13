@@ -1,16 +1,17 @@
+import { EventEmitter } from "events";
+import firebase from "firebase";
 import { FirePeer } from "firepeer";
 import keypress from "keypress";
-import firebase from "firebase";
-import debug from "../debug";
 import wrtc from "wrtc";
-import { EventEmitter } from "events";
+import { Client } from "./service";
+import inquirer = require("inquirer");
 
 export default class Initiator extends EventEmitter {
   firePeer: FirePeer;
 
-  constructor() {
+  constructor(client: Client) {
     super();
-    this.firePeer = new FirePeer(firebase, { spOpts: { wrtc } });
+    this.firePeer = new FirePeer(firebase, { id: client.id, spOpts: { wrtc } });
   }
 
   async connect(user: firebase.User, id: string) {

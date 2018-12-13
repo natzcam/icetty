@@ -1,9 +1,9 @@
 import { Command, flags } from "@oclif/command";
 import firebase from "firebase";
 import Receiver from "../lib/receiver";
-import { authenticate, Client, newClient } from "../lib/client";
+import { authenticate, Client, newClient } from "../lib/service";
 import { initFirebase } from "../lib/firebase";
-import login from "../lib/login";
+import login from "../lib/auth";
 import config from "../lib/config";
 
 export default class Start extends Command {
