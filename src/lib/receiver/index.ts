@@ -6,15 +6,14 @@ import wrtc from "wrtc";
 import config from "../config";
 import debug from "../debug";
 import notifier from "node-notifier";
+import { Client } from "../client";
 
 export default class Receiver extends EventEmitter {
   firePeer: FirePeer;
   watch = false;
 
-  constructor() {
+  constructor(client: Client) {
     super();
-    const client = config.get("client");
-    console.log("starting %o", client.id);
 
     this.firePeer = new FirePeer(firebase, {
       id: client.id,

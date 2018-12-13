@@ -3,7 +3,9 @@ import Initiator from "../lib/initiator";
 import selectClient from "../lib/initiator/clients";
 import firebase from "firebase";
 import { initFirebase } from "../lib/firebase";
-import { authenticate } from "../lib/client";
+import { authenticate, Client, newClient } from "../lib/client";
+import config from "../lib/config";
+import login from "../lib/login";
 
 export default class Connect extends Command {
   static description = "Connect to a peer terminal";
@@ -24,11 +26,22 @@ export default class Connect extends Command {
     let initiator: Initiator;
     try {
       initFirebase();
+      let client: Client = config.get("client");
+      if (!client) {
+        await login(flags);
+        client = await newClient();
+      }
+
       firebase.auth().onAuthStateChanged(async user => {
         if (user) {
           const id = await selectClient(user);
           initiator = new Initiator();
-          await initiator.connect(user, id);
+          await initiator.connect(
+            user,
+            id
+          );
+        } else {
+          //initiator.destroy();
         }
       });
 

@@ -1,7 +1,7 @@
 {
   "name": "icetty",
   "description": "secure p2p command line access to any of your devices",
-  "version": "0.0.6",
+  "version": "0.0.5",
   "author": "Nathaniel Camomot",
   "bin": {
     "icetty": "./bin/run"
@@ -52,6 +52,9 @@
     "tslint": "^5.11.0",
     "typescript": "^3.1.3"
   },
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "files": [
     "/bin",
     "/lib",
@@ -80,9 +83,9 @@
     "posttest": "tslint -p test -t stylish",
     "prepack": "rimraf lib && tsc -b && oclif-dev manifest",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "login": "tsc && cross-env DEBUG=icetty icetty login",
-    "start": "tsc && cross-env DEBUG=icetty icetty start",
-    "connect": "tsc && cross-env DEBUG=icetty icetty connect"
+    "login": "tsc && cross-env DEBUG=icetty ./bin/run login",
+    "start": "tsc && cross-env DEBUG=icetty ./bin/run start",
+    "connect": "tsc && cross-env DEBUG=icetty ./bin/run connect"
   },
   "types": "lib/index.d.ts"
 }
