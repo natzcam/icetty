@@ -82,8 +82,10 @@
     "posttest": "tslint -p test -t stylish",
     "prepack": "rimraf lib && tsc -b && oclif-dev manifest",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "start": "tsc && cross-env DEBUG=* ./bin/run start",
-    "connect": "tsc && cross-env DEBUG=* ./bin/run connect"
+    "startd": "tsc && cross-env DEBUG=* ./bin/run start",
+    "connectd": "tsc && cross-env DEBUG=* ./bin/run connect",
+    "start": "tsc && cross-env ./bin/run start",
+    "connect": "tsc && cross-env ./bin/run connect"
   },
   "types": "lib/index.d.ts"
 }

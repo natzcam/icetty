@@ -4,6 +4,7 @@ import os from "os";
 import config from "./config";
 import debug from "./debug";
 import inquirer = require("inquirer");
+import login from "./auth";
 const rsa = new RSA();
 const crypt = new Crypt();
 
@@ -23,7 +24,7 @@ const generateKeys = () => {
   });
 };
 
-export const newClient = async () => {
+const newClient = async () => {
   const keypair: any = await generateKeys();
   const newClientCall = firebase.functions().httpsCallable("newClient");
   const result = await newClientCall({
@@ -35,6 +36,15 @@ export const newClient = async () => {
   config.set("client", client);
   config.set("priv", keypair.privateKey);
   return result.data;
+};
+
+export const createClient = async (flags: any) => {
+  let client: Client = config.get("client");
+  if (!client) {
+    await login(flags);
+    client = await newClient();
+  }
+  return client;
 };
 
 export const authenticate = async () => {
