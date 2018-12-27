@@ -14,9 +14,8 @@
     "conf": "^2.0.0",
     "conf-cli": "^0.1.6",
     "debug": "^4.1.0",
-    "firebase": "^5.5.6",
-    "firepeer": "^0.1.6",
-    "get-port": "^4.0.0",
+    "firebase": "^5.7.0",
+    "firepeer": "file:../firepeer",
     "google-auth-library": "^2.0.0",
     "google-device-auth": "^0.1.3",
     "hybrid-crypto-js": "^0.1.6",
@@ -26,7 +25,7 @@
     "node-pty": "^0.7.8",
     "opn": "^5.4.0",
     "tslib": "^1.9.3",
-    "wrtc": "^0.2.1"
+    "wrtc": "^0.3.2"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.19.0",
@@ -83,9 +82,8 @@
     "posttest": "tslint -p test -t stylish",
     "prepack": "rimraf lib && tsc -b && oclif-dev manifest",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "login": "tsc && cross-env DEBUG=icetty ./bin/run login",
-    "start": "tsc && cross-env DEBUG=icetty ./bin/run start",
-    "connect": "tsc && cross-env DEBUG=icetty ./bin/run connect"
+    "start": "tsc && cross-env DEBUG=* ./bin/run start",
+    "connect": "tsc && cross-env DEBUG=* ./bin/run connect"
   },
   "types": "lib/index.d.ts"
 }

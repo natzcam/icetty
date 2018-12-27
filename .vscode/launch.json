@@ -14,7 +14,7 @@
         "start"
       ],
       "env": {
-        "DEBUG": "*"
+        "DEBUG": "icetty:*,firepeer:*"
       }
     },
     {
@@ -27,20 +27,7 @@
         "connect"
       ],
       "env": {
-        "DEBUG": "*"
-      }
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "console": "integratedTerminal",
-      "name": "Login",
-      "program": "${workspaceFolder}\\bin\\run",
-      "args": [
-        "login"
-      ],
-      "env": {
-        "DEBUG": "*"
+        "DEBUG": "icetty:*,firepeer:*"
       }
     }
   ]
