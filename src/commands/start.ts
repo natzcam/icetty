@@ -1,10 +1,10 @@
-import { Command, flags } from "@oclif/command";
+import { Command } from "@oclif/command";
 import { authenticate, Client, createClient } from "../lib/service";
 import { createFirebase } from "../lib/firebase";
 import config from "../lib/config";
 import debug from "../lib/debug";
-import { FirePeer, Signal } from "firepeer";
-import { spawn } from "node-pty";
+import { FirePeer, Signal, FirePeerInstance } from "firepeer";
+import { spawn, IPty } from "node-pty";
 import wrtc from "wrtc";
 
 export default class Start extends Command {
@@ -37,15 +37,7 @@ export default class Start extends Command {
       }
     });
 
-    firePeer.on("connection", peer => {
-      var ptyProcess = spawn(config.shell(), [], {
-        name: "icetty",
-        cols: 80,
-        rows: 30,
-        cwd: process.env.HOME,
-        env: process.env as any
-      });
-
+    const watchProcess = (peer: FirePeerInstance, ptyProcess: IPty) => {
       ptyProcess.on("data", data => {
         peer.send(data);
       });
@@ -67,6 +59,25 @@ export default class Start extends Command {
         console.info("Remote peer connection closed.");
         ptyProcess.kill();
       });
+    };
+
+    firePeer.on("connection", peer => {
+      var ptyProcess;
+      try {
+        ptyProcess = spawn(config.shell(), [], {
+          name: "icetty",
+          cols: 80,
+          rows: 30,
+          cwd: process.env.HOME,
+          env: process.env as any
+        });
+      } catch (err) {
+        peer.destroy(err);
+      }
+
+      if (ptyProcess) {
+        watchProcess(peer, ptyProcess);
+      }
     });
 
     const customToken = await authenticate();

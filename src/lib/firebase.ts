@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import debug from "./debug";
 import keys from "./../keys";
 
 let app: firebase.app.App;

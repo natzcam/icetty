@@ -61,7 +61,9 @@ export default class Connect extends Command {
       process.exit();
     });
 
-    peer.pipe(process.stdout);
+    peer.on("data", data => {
+      process.stdout.write(data);
+    });
 
     process.stdin.on("keypress", (char, key) => {
       peer.send(char);
