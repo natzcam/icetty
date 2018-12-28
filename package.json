@@ -14,6 +14,7 @@
     "conf": "^2.1.0",
     "conf-cli": "^0.1.8",
     "debug": "^4.1.1",
+    "dotenv": "^6.2.0",
     "firebase": "^5.7.2",
     "firepeer": "^0.1.15",
     "google-auth-library": "^2.0.2",
@@ -54,6 +55,7 @@
     "node": ">=8.0.0"
   },
   "files": [
+    "/.env",
     "/bin",
     "/lib",
     "/oclif.manifest.json"
