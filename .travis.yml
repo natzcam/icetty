@@ -1,10 +1,15 @@
 language: node_js
 node_js:
-  - "9"
-
+  - "10"
+env:
+  - CXX=g++-4.8
 addons:
   apt:
-    packages: [ nsis ]
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+      - nsis
 
 install:
   - npm install
