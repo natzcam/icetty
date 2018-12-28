@@ -1,7 +1,7 @@
 {
   "name": "icetty",
   "description": "secure p2p command line access to any of your devices",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "Nathaniel Camomot",
   "bin": {
     "icetty": "./bin/run"
@@ -15,7 +15,7 @@
     "conf-cli": "^0.1.6",
     "debug": "^4.1.0",
     "firebase": "^5.7.0",
-    "firepeer": "file:../firepeer",
+    "firepeer": "^0.1.13",
     "google-auth-library": "^2.0.0",
     "google-device-auth": "^0.1.3",
     "hybrid-crypto-js": "^0.1.6",
