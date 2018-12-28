@@ -1,4 +1,4 @@
-icetty
+🍹 icetty 🍹
 ======
 
 secure p2p command line access to any of your devices
