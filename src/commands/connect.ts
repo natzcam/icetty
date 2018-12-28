@@ -52,7 +52,7 @@ export default class Connect extends Command {
       id
     );
 
-    peer.on("error", err => {
+    peer.on("error", (err: Error) => {
       console.error(err.message);
     });
 

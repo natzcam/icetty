@@ -58,7 +58,7 @@ export default class Start extends Command {
         ptyProcess.write(data);
       });
 
-      peer.on("error", err => {
+      peer.on("error", (err: Error) => {
         console.error(err.message);
         debug(err);
       });
