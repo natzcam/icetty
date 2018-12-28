@@ -6,7 +6,7 @@ addons:
   apt:
     packages: [ nsis ]
 
-before_script:
+install:
   - npm install
 script: 
   - npm run dist
