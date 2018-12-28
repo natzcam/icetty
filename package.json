@@ -61,7 +61,14 @@
   ],
   "homepage": "https://github.com/natzcam/icetty",
   "keywords": [
-    "oclif"
+    "oclif",
+    "p2p",
+    "tty",
+    "simple-peer",
+    "node-pty",
+    "cli",
+    "firepeer",
+    "firebase"
   ],
   "license": "MIT",
   "main": "lib/index.js",
