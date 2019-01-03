@@ -112,7 +112,7 @@
     "win": "oclif-dev pack:win && oclif-dev publish:win",
     "macos": "oclif-dev pack:macos && oclif-dev publish:macos",
     "deb": "oclif-dev pack:deb && oclif-dev publish:deb",
-    "dist": "tsc && npm run tar && npm run win && npm run deb",
+    "dist": "tsc && npm run tar && npm run win",
     "startd": "tsc && cross-env DEBUG=* ./bin/run start",
     "connectd": "tsc && cross-env DEBUG=* ./bin/run connect",
     "start": "tsc && cross-env ./bin/run start",
