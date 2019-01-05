@@ -1,7 +1,7 @@
 {
   "name": "icetty",
   "description": "secure p2p command line access to any of your devices",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "author": "Nathaniel Camomot",
   "bin": {
     "icetty": "./bin/run"
