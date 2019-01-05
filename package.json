@@ -100,8 +100,7 @@
   },
   "repository": "natzcam/icetty",
   "scripts": {
-    "replace-env": "node replace-env.js",
-    "build": "rimraf lib && tsc && npm run replace-env",
+    "build": "rimraf lib && tsc && node replace-env.js",
     "prepack": "npm run build && oclif-dev manifest",
     "postpack": "rimraf oclif.manifest.json",
     "test": "npm run build && nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
