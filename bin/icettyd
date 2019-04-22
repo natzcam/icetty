@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const argv = require("yargs").argv;
+
 const debug = require("debug")("icettyd");
 const { spawn } = require("node-pty");
 const peer = require("../lib/peer/clipboard");

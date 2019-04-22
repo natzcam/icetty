@@ -9,7 +9,7 @@
   },
   "bugs": "https://github.com/natzcam/icetty/issues",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=6.4.0"
   },
   "homepage": "https://github.com/natzcam/icetty",
   "keywords": [
