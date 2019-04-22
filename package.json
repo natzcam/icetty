@@ -1,66 +1,16 @@
 {
   "name": "icetty",
-  "description": "secure p2p command line access to any of your devices",
-  "version": "0.1.0",
+  "description": "p2p command line access to any of your devices",
+  "version": "0.2.0",
   "author": "Nathaniel Camomot",
   "bin": {
-    "icetty": "./bin/run"
+    "icetty": "./bin/icetty",
+    "icettyd": "./bin/icettyd"
   },
   "bugs": "https://github.com/natzcam/icetty/issues",
-  "dependencies": {
-    "@oclif/command": "^1.5.8",
-    "@oclif/config": "^1.10.4",
-    "@oclif/plugin-help": "^2.1.4",
-    "conf": "^2.1.0",
-    "conf-cli": "^0.1.8",
-    "debug": "^4.1.1",
-    "firebase": "^5.7.2",
-    "firepeer": "^0.1.15",
-    "google-auth-library": "^2.0.2",
-    "google-device-auth": "^0.1.3",
-    "hybrid-crypto-js": "^0.1.6",
-    "inquirer": "^6.2.1",
-    "keypress": "^0.2.1",
-    "node-pty": "^0.8.0",
-    "opn": "^5.4.0",
-    "tslib": "^1.9.3",
-    "wrtc": "^0.3.3"
-  },
-  "devDependencies": {
-    "@oclif/dev-cli": "^1.21.0",
-    "@oclif/test": "^1.2.2",
-    "@oclif/tslint": "^3.1.1",
-    "@types/chai": "^4.1.7",
-    "@types/conf": "^2.1.0",
-    "@types/debug": "0.0.31",
-    "@types/get-port": "^4.0.1",
-    "@types/inquirer": "0.0.43",
-    "@types/mocha": "^5.2.5",
-    "@types/nanoid": "^1.2.0",
-    "@types/node": "^10.12.18",
-    "@types/node-notifier": "0.0.28",
-    "@types/opn": "^5.1.0",
-    "aws-sdk": "^2.382.0",
-    "chai": "^4.2.0",
-    "cross-env": "^5.2.0",
-    "dotenv": "^6.2.0",
-    "globby": "^8.0.1",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "replace-in-file": "^3.4.2",
-    "rimraf": "^2.6.2",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.12.0",
-    "typescript": "^3.2.2"
-  },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=6.0.0"
   },
-  "files": [
-    "/bin",
-    "/lib",
-    "/oclif.manifest.json"
-  ],
   "homepage": "https://github.com/natzcam/icetty",
   "keywords": [
     "oclif",
@@ -73,48 +23,22 @@
     "firebase"
   ],
   "license": "MIT",
-  "main": "lib/index.js",
-  "oclif": {
-    "commands": "./lib/commands",
-    "bin": "icetty",
-    "macos": {
-      "identifier": "org.icetty",
-      "sign": "Icetty is awesome"
-    },
-    "update": {
-      "autoupdate": {
-        "rollout": 50,
-        "debounce": 60
-      },
-      "node": {
-        "version": "10.0.0"
-      },
-      "s3": {
-        "bucket": "icetty"
-      }
-    },
-    "plugins": [
-      "@oclif/plugin-help",
-      "conf-cli"
-    ]
-  },
-  "repository": "natzcam/icetty",
+  "repository": "https://github.com/natzcam/icetty",
   "scripts": {
-    "build": "rimraf lib && tsc && node replace-env.js",
-    "prepack": "npm run build && oclif-dev manifest",
-    "postpack": "rimraf oclif.manifest.json",
-    "test": "npm run build && nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "posttest": "tslint -p test -t stylish",
-    "docs": "cd docs && oclif-dev readme",
-    "dist:tar": "oclif-dev pack && oclif-dev publish",
-    "dist:win": "oclif-dev pack:win && oclif-dev publish:win",
-    "dist:macos": "oclif-dev pack:macos && oclif-dev publish:macos",
-    "dist:deb": "oclif-dev pack:deb && oclif-dev publish:deb",
-    "dist": "npm run build && npm run dist:tar",
-    "startd": "npm run build && cross-env DEBUG=* ./bin/run start",
-    "connectd": "npm run build && cross-env DEBUG=* ./bin/run connect",
-    "start": "npm run build && cross-env ./bin/run start",
-    "connect": "npm run build && cross-env ./bin/run connect"
+    "lint": "eslint bin/run lib/**/*.js",
+    "fix": "eslint bin/run lib/**/*.js --fix"
   },
-  "types": "lib/index.d.ts"
+  "dependencies": {
+    "clipboardy": "^2.0.0",
+    "debug": "^4.1.1",
+    "inquirer": "^6.3.1",
+    "keypress": "^0.2.1",
+    "node-pty": "^0.8.1",
+    "simple-peer": "^9.3.0",
+    "wrtc": "^0.3.7",
+    "yargs": "^13.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
 }

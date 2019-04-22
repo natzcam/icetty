@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+const argv = require("yargs").argv;
+const debug = require("debug")("icetty");
+const keypress = require("keypress");
+const tty = require("tty");
+const peer = require("../lib/peer/clipboard");
+
+(async () => {
+  const p = await peer.connect();
+  keypress(process.stdin);
+  p.on("error", debug);
+
+  p.on("close", () => {
+    debug("Remote peer connection closed.");
+    process.exit();
+  });
+
+  p.on("data", data => {
+    process.stdout.write(data);
+  });
+
+  process.stdin.on("keypress", char => {
+    p.send(char);
+  });
+
+  if (typeof process.stdin.setRawMode == "function") {
+    process.stdin.setRawMode(true);
+  } else {
+    tty.setRawMode(true);
+  }
+
+  process.stdin.resume();
+})();
