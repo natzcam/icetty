@@ -13,32 +13,43 @@
   },
   "homepage": "https://github.com/natzcam/icetty",
   "keywords": [
-    "oclif",
     "p2p",
     "tty",
     "simple-peer",
     "node-pty",
-    "cli",
-    "firepeer",
-    "firebase"
+    "cli"
   ],
   "license": "MIT",
   "repository": "https://github.com/natzcam/icetty",
   "scripts": {
+    "host": "cross-env DEBUG=icetty:* node ./bin/icettyd",
+    "ins": "cross-env DEBUG=icetty:* node ./bin/icettyd --install",
+    "uni": "cross-env DEBUG=icetty:* node ./bin/icettyd --uninstall",
+    "conn": "cross-env DEBUG=icetty:* node ./bin/icetty",
     "lint": "eslint bin/run lib/**/*.js",
     "fix": "eslint bin/run lib/**/*.js --fix"
   },
   "dependencies": {
+    "chokidar": "^2.1.5",
     "clipboardy": "^2.0.0",
+    "conf": "^4.0.1",
     "debug": "^4.1.1",
+    "hybrid-crypto-js": "^0.1.6",
     "inquirer": "^6.3.1",
+    "jsonfile": "^5.0.0",
     "keypress": "^0.2.1",
+    "mkdirp": "^0.5.1",
     "node-pty": "^0.8.1",
+    "node-windows": "^0.1.14",
+    "ora": "^3.4.0",
+    "request": "^2.88.0",
+    "signalhub": "^4.9.0",
     "simple-peer": "^9.3.0",
     "wrtc": "^0.3.7",
     "yargs": "^13.2.2"
   },
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0"
   }
 }

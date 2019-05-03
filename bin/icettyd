@@ -1,44 +1,74 @@
 #!/usr/bin/env node
-
-const debug = require("debug")("icettyd");
+const argv = require("yargs").argv;
+const debug = require("debug")("icetty:daemon");
 const { spawn } = require("node-pty");
-const peer = require("../lib/peer/clipboard");
-const os = require("os");
+const { Service } = require("node-windows");
+//app
+const host = require("../lib/host");
+const config = require("../lib/config/host");
 
-peer.start(p => {
-  let pty;
-  try {
-    pty = spawn(os.platform() === "win32" ? "powershell.exe" : "bash", [], {
-      name: "icetty",
-      cols: 80,
-      rows: 30,
-      cwd: process.env.HOME,
-      env: process.env
+(async () => {
+  let svc = new Service({
+    name: "icetty",
+    description: "p2p command line daemon",
+    script: require("path").join(__dirname, "icetty")
+  });
+  if (argv.install) {
+    await config.setup(true);
+
+    svc.on("install", function() {
+      svc.start();
     });
-  } catch (err) {
-    p.destroy(err);
+
+    svc.on("alreadyinstalled ", function() {
+      console.log("Already installed!");
+    });
+
+    svc.install();
+  } else if (argv.uninstall) {
+    svc.on("uninstall", function() {
+      console.log("Uninstall complete");
+    });
+
+    svc.uninstall();
+  } else {
+    await config.setup();
+    host.start(p => {
+      debug("Peer received!");
+      try {
+        let pty = spawn(config.get("shell"), [], {
+          name: "icetty",
+          cwd: config.get("cwd"),
+          env: process.env
+        });
+
+        pty.on("data", data => {
+          p.send(data);
+        });
+
+        pty.on("exit", () => {
+          p.send("icetty:exit");
+          p.destroy();
+        });
+
+        p.on("data", data => {
+          if (data.length == 2) {
+            pty.resize(data[0], data[1]);
+          } else {
+            pty.write(data);
+          }
+        });
+
+        p.on("error", console.error);
+
+        p.on("close", () => {
+          console.log("Peer connection closed");
+          pty.kill();
+        });
+      } catch (err) {
+        console.error(err);
+        p.destroy(err);
+      }
+    });
   }
-
-  if (pty) {
-    pty.on("data", data => {
-      p.send(data);
-    });
-
-    pty.on("exit", () => {
-      p.destroy(new Error("Process exited."));
-    });
-
-    p.on("data", data => {
-      pty.write(data);
-    });
-
-    p.on("error", err => {
-      debug(err);
-    });
-
-    p.on("close", () => {
-      debug("Remote peer connection closed.");
-      pty.kill();
-    });
-  }
-});
+})();
