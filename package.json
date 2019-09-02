@@ -30,26 +30,29 @@
     "fix": "eslint bin/run lib/**/*.js --fix"
   },
   "dependencies": {
-    "chokidar": "^2.1.5",
-    "clipboardy": "^2.0.0",
-    "conf": "^4.0.1",
+    "argon2": "^0.24.1",
+    "conf": "^5.0.0",
     "debug": "^4.1.1",
-    "hybrid-crypto-js": "^0.1.6",
-    "inquirer": "^6.3.1",
+    "hybrid-crypto-js": "^0.2.1",
+    "inquirer": "^7.0.0",
     "jsonfile": "^5.0.0",
     "keypress": "^0.2.1",
     "mkdirp": "^0.5.1",
     "node-pty": "^0.8.1",
-    "node-windows": "^0.1.14",
     "ora": "^3.4.0",
     "request": "^2.88.0",
     "signalhub": "^4.9.0",
-    "simple-peer": "^9.3.0",
-    "wrtc": "^0.3.7",
-    "yargs": "^13.2.2"
+    "simple-peer": "^9.5.0",
+    "wrtc": "^0.4.1",
+    "yargs": "^14.0.0"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
-    "eslint": "^5.16.0"
+    "eslint": "^6.2.2"
+  },
+  "optionalDependencies": {
+    "node-linux": "^0.1.12",
+    "node-mac": "^0.1.8",
+    "node-windows": "^0.1.14"
   }
 }

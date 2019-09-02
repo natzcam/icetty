@@ -1,74 +1,71 @@
 #!/usr/bin/env node
 const argv = require("yargs").argv;
 const debug = require("debug")("icetty:daemon");
-const { spawn } = require("node-pty");
-const { Service } = require("node-windows");
+var Service
+if (process.platform === "win32") {
+  Service = require("node-windows").Service
+} else if (process.platform == "darwin") {
+  Service = require("node-mac").Service
+} else {
+  Service = require("node-linux").Service
+}
 //app
 const host = require("../lib/host");
 const config = require("../lib/config/host");
 
 (async () => {
-  let svc = new Service({
-    name: "icetty",
-    description: "p2p command line daemon",
-    script: require("path").join(__dirname, "icetty")
-  });
   if (argv.install) {
+    debug("installing service")
+    let svc = new Service({
+      name: "icetty",
+      description: "p2p command line daemon",
+      script: require("path").join(__dirname, "icetty")
+    });
+
     await config.setup(true);
 
-    svc.on("install", function() {
+    svc.on("install", function () {
       svc.start();
     });
 
-    svc.on("alreadyinstalled ", function() {
+    svc.on("alreadyinstalled ", function () {
       console.log("Already installed!");
     });
 
     svc.install();
   } else if (argv.uninstall) {
-    svc.on("uninstall", function() {
+    /**
+     * Uninstall the service
+     */
+    let svc = new Service({
+      name: "icetty",
+      description: "p2p command line daemon",
+      script: require("path").join(__dirname, "icetty")
+    });
+
+    svc.on("uninstall", function () {
       console.log("Uninstall complete");
     });
 
     svc.uninstall();
-  } else {
+  } else if (argv.register && argv.username && argv.password) {
+    /**
+     * Register a user
+     */
     await config.setup();
-    host.start(p => {
-      debug("Peer received!");
-      try {
-        let pty = spawn(config.get("shell"), [], {
-          name: "icetty",
-          cwd: config.get("cwd"),
-          env: process.env
-        });
-
-        pty.on("data", data => {
-          p.send(data);
-        });
-
-        pty.on("exit", () => {
-          p.send("icetty:exit");
-          p.destroy();
-        });
-
-        p.on("data", data => {
-          if (data.length == 2) {
-            pty.resize(data[0], data[1]);
-          } else {
-            pty.write(data);
-          }
-        });
-
-        p.on("error", console.error);
-
-        p.on("close", () => {
-          console.log("Peer connection closed");
-          pty.kill();
-        });
-      } catch (err) {
-        console.error(err);
-        p.destroy(err);
-      }
-    });
+    await host.register(argv.username, argv.password)
+  } else if (argv.login && argv.username && argv.password) {
+    /**
+     * Test login a user
+     */
+    await config.setup();
+    const ok = await host.login(argv.username, argv.password)
+    console.log(ok)
+  } else {
+    /**
+     * Run the host process
+     */
+    await config.setup();
+    await host.start();
   }
 })();

@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 const argv = require("yargs").argv;
-const debug = require("debug")("icetty");
-const keypress = require("keypress");
-const tty = require("tty");
 const inquirer = require("inquirer");
 //app
 const config = require("../lib/config/client");
@@ -27,48 +24,27 @@ if (!process.stdout.isTTY) {
     argv.host = answers.host;
   }
 
-  const p = await client.connect(argv.host);
-
-  debug("Peer connected!");
-
-  keypress(process.stdin);
-  p.send(Buffer.from([process.stdout.columns, process.stdout.rows]));
-
-  p.on("error", err => {
-    if (err.message == "icetty:pty_exit") {
-      console.error("Remote session ended");
-    } else {
-      console.error(err);
-    }
-  });
-
-  p.on("close", () => {
-    console.log("Peer connection closed");
-    process.exit();
-  });
-
-  p.on("data", data => {
-    if (data == "icetty:exit") {
-      console.log("PTY exited");
-      p.destroy();
-    } else {
-      process.stdout.write(data);
-    }
-  });
-
-  process.stdin.on("keypress", char => {
-    p.send(char);
-  });
-
-  process.stdout.on("resize", () => {
-    p.send(Buffer.from([process.stdout.columns, process.stdout.rows]));
-  });
-
-  if (typeof process.stdin.setRawMode == "function") {
-    process.stdin.setRawMode(true);
-  } else {
-    tty.setRawMode(true);
+  if (!argv.username) {
+    const answers = await inquirer.prompt([
+      {
+        type: "input",
+        name: "username",
+        message: "Username?"
+      }
+    ]);
+    argv.username = answers.username;
   }
 
-  process.stdin.resume();
+  if (!argv.password) {
+    const answers = await inquirer.prompt([
+      {
+        type: "password",
+        name: "password",
+        message: "Password?"
+      }
+    ]);
+    argv.password = answers.password;
+  }
+
+  await client.connect(argv.host, argv.username, argv.password);
 })();

@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "IceTTY",
-      "program": "${workspaceFolder}\\bin\\icetty",
+      "program": "${workspaceFolder}/bin/icetty",
       "console": "integratedTerminal",
       "env": {
         "DEBUG": "icetty:*"
@@ -19,7 +19,7 @@
       "request": "launch",
       "name": "IceTTYD",
       "console": "integratedTerminal",
-      "program": "${workspaceFolder}\\bin\\icettyd",
+      "program": "${workspaceFolder}/bin/icettyd",
       "env": {
         "DEBUG": "icetty:*"
       }
