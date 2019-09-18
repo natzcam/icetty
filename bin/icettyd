@@ -1,71 +1,10 @@
 #!/usr/bin/env node
 const argv = require("yargs").argv;
+const inquirer = require("inquirer");
 const debug = require("debug")("icetty:daemon");
-var Service
-if (process.platform === "win32") {
-  Service = require("node-windows").Service
-} else if (process.platform == "darwin") {
-  Service = require("node-mac").Service
-} else {
-  Service = require("node-linux").Service
-}
-//app
 const host = require("../lib/host");
-const config = require("../lib/config/host");
 
 (async () => {
-  if (argv.install) {
-    debug("installing service")
-    let svc = new Service({
-      name: "icetty",
-      description: "p2p command line daemon",
-      script: require("path").join(__dirname, "icetty")
-    });
-
-    await config.setup(true);
-
-    svc.on("install", function () {
-      svc.start();
-    });
-
-    svc.on("alreadyinstalled ", function () {
-      console.log("Already installed!");
-    });
-
-    svc.install();
-  } else if (argv.uninstall) {
-    /**
-     * Uninstall the service
-     */
-    let svc = new Service({
-      name: "icetty",
-      description: "p2p command line daemon",
-      script: require("path").join(__dirname, "icetty")
-    });
-
-    svc.on("uninstall", function () {
-      console.log("Uninstall complete");
-    });
-
-    svc.uninstall();
-  } else if (argv.register && argv.username && argv.password) {
-    /**
-     * Register a user
-     */
-    await config.setup();
-    await host.register(argv.username, argv.password)
-  } else if (argv.login && argv.username && argv.password) {
-    /**
-     * Test login a user
-     */
-    await config.setup();
-    const ok = await host.login(argv.username, argv.password)
-    console.log(ok)
-  } else {
-    /**
-     * Run the host process
-     */
-    await config.setup();
-    await host.start();
-  }
-})();
+  await host.setup();
+  await host.start();
+})()

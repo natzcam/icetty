@@ -1,0 +1,113 @@
+#!/usr/bin/env node
+
+const argv = require("yargs").argv;
+const inquirer = require("inquirer")
+const os = require("os")
+const debug = require("debug")("icetty:service-installer");
+const host = require("../lib/host");
+
+(async () => {
+  const platform = os.platform()
+
+  let svc
+  if (platform === "win32") {
+
+    svc = new require("node-windows").Service({
+      name: "icettyd",
+      description: "p2p command line daemon",
+      script: require("path").join(__dirname, "icettyd")
+    });
+
+    const answers = await inquirer.prompt([{
+      type: "input",
+      name: "user",
+      message: "Windows User (icettyd will be logged in as this user)",
+      validate: (input, answers) => {
+        return input ? true : "Windows User is required"
+      }
+    },
+    {
+      type: "password",
+      name: "password",
+      message: "Password",
+      validate: (input, answers) => {
+        return input ? true : "Password is required"
+      }
+    }]);
+
+    svc.logOnAs.account = answers.user;
+    svc.logOnAs.password = answers.password;
+
+  } else if (platform == "darwin") {
+
+    const answers = await inquirer.prompt([{
+      type: "input",
+      name: "user",
+      message: "User (icettyd will be ran as this user)",
+      validate: (input, answers) => {
+        return input ? true : "User is required"
+      }
+    },
+    {
+      type: "input",
+      name: "group",
+      message: "Group",
+      validate: (input, answers) => {
+        return input ? true : "Group is required"
+      }
+    }]);
+
+    svc = new require("node-mac").Service({
+      name: "icettyd",
+      description: "p2p command line daemon",
+      script: require("path").join(__dirname, "icettyd"),
+      user: answers.user,
+      group: answers.group
+    });
+
+  } else if (platform == "linux") {
+
+    const answers = await inquirer.prompt([{
+      type: "input",
+      name: "user",
+      message: "User (icettyd will be ran as this user)",
+      validate: (input, answers) => {
+        return input ? true : "User is required"
+      }
+    },
+    {
+      type: "input",
+      name: "group",
+      message: "Group",
+      validate: (input, answers) => {
+        return input ? true : "Group is required"
+      }
+    }]);
+
+    const Service = require("node-linux").Service;
+    svc = new Service({
+      name: "icettyd",
+      description: "p2p command line daemon",
+      script: require("path").join(__dirname, "icettyd"),
+      user: answers.user,
+      group: answers.group
+    });
+
+  } else {
+    throw new Error('Platform not supported')
+  }
+
+  await host.cleanup();
+  await host.setup();
+
+  svc.on("install", async function () {
+    console.log("Starting icettyd");
+    svc.start();
+  });
+
+  svc.on("alreadyinstalled ", function () {
+    console.log("Already installed!");
+  });
+
+  svc.install();
+})();

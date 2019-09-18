@@ -23,6 +23,16 @@
       "env": {
         "DEBUG": "icetty:*"
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "IceTTYD Service Install",
+      "console": "integratedTerminal",
+      "program": "${workspaceFolder}/bin/icettyd_service_install",
+      "env": {
+        "DEBUG": "icetty:*"
+      }
     }
   ]
 }

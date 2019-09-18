@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 const argv = require("yargs").argv;
-const inquirer = require("inquirer");
-//app
-const config = require("../lib/config/client");
 const client = require("../lib/client");
 
 if (!process.stdout.isTTY) {
@@ -11,40 +8,18 @@ if (!process.stdout.isTTY) {
 }
 
 (async () => {
-  await config.setup();
+  try {
+    await client.setup(argv);
 
-  if (!argv.host) {
-    const answers = await inquirer.prompt([
-      {
-        type: "input",
-        name: "host",
-        message: "Host to connect"
-      }
-    ]);
-    argv.host = answers.host;
+    if (argv.key) {
+      return client.key()
+    } else {
+      await client.start();
+      process.exit(0)
+    }
+  } catch (e) {
+    console.error(e)
+    process.exit(-1)
   }
 
-  if (!argv.username) {
-    const answers = await inquirer.prompt([
-      {
-        type: "input",
-        name: "username",
-        message: "Username?"
-      }
-    ]);
-    argv.username = answers.username;
-  }
-
-  if (!argv.password) {
-    const answers = await inquirer.prompt([
-      {
-        type: "password",
-        name: "password",
-        message: "Password?"
-      }
-    ]);
-    argv.password = answers.password;
-  }
-
-  await client.connect(argv.host, argv.username, argv.password);
 })();
