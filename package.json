@@ -34,9 +34,7 @@
   "dependencies": {
     "argon2": "^0.24.1",
     "conf": "^6.0.0",
-    "death": "^1.1.0",
     "debug": "^4.1.1",
-    "firebase": "^6.6.1",
     "hybrid-crypto-js": "^0.2.2",
     "inquirer": "^7.0.0",
     "is-url": "^1.2.4",
@@ -44,7 +42,6 @@
     "node-pty": "^0.9.0-beta25",
     "ora": "^3.4.0",
     "owasp-password-strength-test": "^1.3.0",
-    "signalhub": "^4.9.0",
     "signalhubws": "^1.0.10",
     "simple-peer": "^9.5.0",
     "sshpk": "^1.16.1",
