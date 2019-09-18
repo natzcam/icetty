@@ -34,7 +34,9 @@
   "dependencies": {
     "argon2": "^0.24.1",
     "conf": "^6.0.0",
+    "death": "^1.1.0",
     "debug": "^4.1.1",
+    "firebase": "^6.6.1",
     "hybrid-crypto-js": "^0.2.2",
     "inquirer": "^7.0.0",
     "is-url": "^1.2.4",
