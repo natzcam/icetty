@@ -1,18 +1,9 @@
 {
   "name": "icetty",
   "description": "p2p command line access to any of your devices",
-  "version": "0.4.1",
+  "version": "0.5.1",
   "author": "Nathaniel Camomot",
-  "bin": {
-    "icetty": "./bin/icetty",
-    "icettyd": "./bin/icettyd",
-    "icettyd_service_install": "./bin/icettyd_service_install",
-    "icettyd_service_uninstall": "./bin/icettyd_service_uninstall"
-  },
   "bugs": "https://github.com/natzcam/icetty/issues",
-  "engines": {
-    "node": ">=6.4.0"
-  },
   "homepage": "https://github.com/natzcam/icetty",
   "keywords": [
     "p2p",
@@ -23,41 +14,58 @@
   ],
   "license": "MIT",
   "repository": "https://github.com/natzcam/icetty",
+  "config": {
+    "platformDependentModules": {
+      "linux": [
+        "node-linux@^0.1.12"
+      ],
+      "win32": [
+        "node-windows@^1.0.0-beta.1"
+      ],
+      "darwin": [
+        "node-mac@^0.1.8"
+      ]
+    }
+  },
+  "bin": {
+    "icetty": "./bin/icetty",
+    "icettyd": "./bin/icettyd",
+    "icettyd_install": "./bin/icettyd_install",
+    "icettyd_uninstall": "./bin/icettyd_uninstall"
+  },
   "scripts": {
     "host": "cross-env DEBUG=icetty:* node ./bin/icettyd",
-    "ins": "cross-env DEBUG=icetty:* node ./bin/icettyd_service_install",
-    "uni": "cross-env DEBUG=icetty:* node ./bin/icettyd_service_uninstall",
+    "ins": "cross-env DEBUG=icetty:* node ./bin/icettyd_install",
+    "uni": "cross-env DEBUG=icetty:* node ./bin/icettyd_uninstall",
     "conn": "cross-env DEBUG=icetty:* node ./bin/icetty",
     "lint": "eslint bin/run lib/**/*.js",
-    "fix": "eslint bin/run lib/**/*.js --fix"
+    "fix": "eslint bin/run lib/**/*.js --fix",
+    "_postinstall": "node ./node_modules/platform-dependent-modules/cli.js",
+    "postinstall": "npm run _postinstall"
   },
   "dependencies": {
-    "argon2": "^0.24.1",
-    "conf": "^6.0.0",
+    "argon2": "^0.26.2",
+    "conf": "^6.2.4",
     "debug": "^4.1.1",
     "hybrid-crypto-js": "^0.2.2",
-    "inquirer": "^7.0.0",
+    "inquirer": "^7.3.0",
     "is-url": "^1.2.4",
     "keypress": "^0.2.1",
-    "node-pty": "^0.9.0-beta25",
-    "ora": "^3.4.0",
+    "node-pty": "^0.9.0",
+    "node-windows": "^1.0.0-beta.1",
+    "ora": "^4.0.4",
     "owasp-password-strength-test": "^1.3.0",
-    "signalhubws": "^1.0.10",
-    "simple-peer": "^9.5.0",
+    "platform-dependent-modules": "0.0.14",
+    "signalhubws": "^1.0.12",
+    "simple-peer": "^9.7.2",
     "sshpk": "^1.16.1",
-    "winston": "^3.2.1",
-    "wrtc": "^0.4.1",
-    "ws": "^7.1.2",
-    "yargs": "^14.0.0"
+    "winston": "^3.3.3",
+    "wrtc": "^0.4.5",
+    "ws": "^7.3.0",
+    "yargs": "^15.3.1"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
     "eslint": "^6.2.2"
-  },
-  "optionalDependencies": {
-    "node-linux": "^0.1.12",
-    "node-mac": "^0.1.8",
-    "node-windows": "^0.1.14",
-    "is-admin": "^3.0.0"
   }
 }

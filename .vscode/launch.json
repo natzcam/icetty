@@ -29,7 +29,7 @@
       "request": "launch",
       "name": "IceTTYD Service Install",
       "console": "integratedTerminal",
-      "program": "${workspaceFolder}/bin/icettyd_service_install",
+      "program": "${workspaceFolder}/bin/icettyd_install",
       "env": {
         "DEBUG": "icetty:*"
       }

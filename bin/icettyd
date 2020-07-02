@@ -6,5 +6,11 @@ const host = require("../lib/host");
 
 (async () => {
   await host.setup();
-  await host.start();
+  if (argv.add) {
+    await host.addClient()
+  } else if (argv.id) {
+    await host.getId();
+  } else {
+    await host.start();
+  }
 })()

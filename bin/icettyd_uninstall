@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+const argv = require("yargs").argv;
+const inquirer = require("inquirer")
+const os = require("os")
+const debug = require("debug")("icetty:service-installer");
+const host = require("../lib/host");
+
+(async () => {
+  await host.cleanup()
+  const platform = os.platform()
+  let Service;
+  if (platform === "win32") {
+    Service = require('node-windows').Service
+  } else if (platform == "darwin") {
+    Service = require('node-mac').Service;
+  } else if (platform == "linux") {
+    Service = require('node-linux').Service;
+  } else {
+    throw new Error('Platform not supported')
+  }
+
+  let svc = new Service({
+    name: "icettyd",
+    description: "p2p command line daemon",
+    script: require("path").join(__dirname, "icettyd"),
+    env: {
+      name: "DEBUG",
+      value: "icetty:*"
+    }
+  });
+  svc.on("uninstall", function () {
+    console.log("Uninstall complete");
+  });
+
+  svc.uninstall();
+})();

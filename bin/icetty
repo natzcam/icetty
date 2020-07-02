@@ -8,18 +8,13 @@ if (!process.stdout.isTTY) {
 }
 
 (async () => {
-  try {
-    await client.setup(argv);
+  await client.setup(argv);
 
-    if (argv.key) {
-      return client.key()
-    } else {
-      await client.start();
-      process.exit(0)
-    }
-  } catch (e) {
-    console.error(e)
-    process.exit(-1)
+  if (argv.key) {
+    return client.key()
+  } else {
+    await client.start();
+    process.exit(0)
   }
 
 })();
