@@ -11,8 +11,8 @@ const host = require("../lib/host");
     await host.addClient();
   } else if (argv.id) {
     console.log(host.getId());
-  } else if (argv.cleanup) {
-    await host.cleanup();
+  } else if (argv.reset) {
+    await host.reset();
   } else {
     await host.start();
   }

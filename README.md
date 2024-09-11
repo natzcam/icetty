@@ -14,4 +14,11 @@ Requires [node v8](https://nodejs.org/en/download/) and above.
 $ npm install -g icetty
 ```
 
+# Host
+
+```sh-session
+$ icettyd
+Host ID: 791c61d7b1bc43caf3e12455...
+```
+
 # Commands
