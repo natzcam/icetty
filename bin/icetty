@@ -8,18 +8,12 @@ if (!process.stdout.isTTY) {
 }
 
 (async () => {
-
-  if (argv.key) {
-    await client.setup(argv);
-
-    return client.key()
-  } else if (argv.cleanup) {
-    return client.cleanup();
+  if (argv.cleanup) {
+    await client.cleanup();
+  } else if (argv.key) {
+    console.log(client.key());
   } else {
-    await client.setup(argv);
-
-    await client.start();
-    process.exit(0)
+    await client.start(argv);
+    process.exit(0);
   }
-
 })();

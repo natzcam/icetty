@@ -14,54 +14,33 @@
   ],
   "license": "MIT",
   "repository": "https://github.com/natzcam/icetty",
-  "config": {
-    "platformDependentModules": {
-      "linux": [
-        "node-linux@^0.1.12"
-      ],
-      "win32": [
-        "node-windows@^1.0.0-beta.1"
-      ],
-      "darwin": [
-        "node-mac@^0.1.8"
-      ]
-    }
-  },
   "bin": {
     "icetty": "./bin/icetty",
-    "icettyd": "./bin/icettyd",
-    "icettyd_install": "./bin/icettyd_install",
-    "icettyd_uninstall": "./bin/icettyd_uninstall"
+    "icettyd": "./bin/icettyd"
   },
   "scripts": {
     "host": "cross-env DEBUG=icetty:* node ./bin/icettyd",
-    "ins": "cross-env DEBUG=icetty:* node ./bin/icettyd_install",
-    "uni": "cross-env DEBUG=icetty:* node ./bin/icettyd_uninstall",
-    "conn": "cross-env DEBUG=icetty:* node ./bin/icetty",
+    "connect": "cross-env DEBUG=icetty:* node ./bin/icetty",
     "lint": "eslint bin/run lib/**/*.js",
-    "fix": "eslint bin/run lib/**/*.js --fix",
-    "_postinstall": "node ./node_modules/platform-dependent-modules/cli.js",
-    "postinstall": "npm run _postinstall"
+    "fix": "eslint bin/run lib/**/*.js --fix"
   },
   "dependencies": {
-    "argon2": "^0.26.2",
+    "@roamhq/wrtc": "^0.8.0",
+    "argon2": "^0.41.1",
     "conf": "^6.2.4",
     "debug": "^4.1.1",
-    "hybrid-crypto-js": "^0.2.2",
+    "hybrid-crypto-js": "^0.2.4",
     "inquirer": "^7.3.0",
     "is-url": "^1.2.4",
     "keypress": "^0.2.1",
-    "node-pty": "^0.9.0",
-    "node-windows": "^1.0.0-beta.1",
+    "node-pty": "^1.0.0",
     "ora": "^4.0.4",
     "owasp-password-strength-test": "^1.3.0",
-    "platform-dependent-modules": "0.0.14",
+    "signalhub": "^4.9.0",
     "signalhubws": "^1.0.12",
     "simple-peer": "^9.7.2",
     "sshpk": "^1.16.1",
     "winston": "^3.3.3",
-    "wrtc": "^0.4.5",
-    "ws": "^7.3.0",
     "yargs": "^15.3.1"
   },
   "devDependencies": {
